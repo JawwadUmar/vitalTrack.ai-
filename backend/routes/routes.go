@@ -3,12 +3,13 @@ package routes
 import "github.com/gin-gonic/gin"
 
 func RegisterRoutes(server *gin.Engine) {
-	registerRoutesForUser(server)
-	// registerRoutesForFiles(server)
+	api := server.Group("/api/v1")
+	registerRoutesForUser(api)
+	// registerRoutesForFiles(api)
 }
 
-func registerRoutesForUser(server *gin.Engine) {
-	server.POST("/signup", signup)
-	server.POST("/login", login)
-	server.POST("/google", googleLogin)
+func registerRoutesForUser(rg *gin.RouterGroup) {
+	rg.POST("/signup", signup)
+	rg.POST("/login", login)
+	rg.POST("/google", googleLogin)
 }
