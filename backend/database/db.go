@@ -13,7 +13,7 @@ const dbtype string = "postgres"
 const username string = "postgres"
 const password string = "0000"
 const dbhost string = "localhost"
-const port string = "5432"
+const port string = "5433"
 const dbname string = "vitadb"
 const security string = "sslmode=disable"
 
@@ -33,6 +33,7 @@ func Init() {
 
 func createTables() {
 	createUserTable()
+	createFileTable()
 }
 
 func createUserTable() {
@@ -40,5 +41,12 @@ func createUserTable() {
 	err := DB.AutoMigrate(&models.User{})
 	if err != nil {
 		panic("failed to migrate User table")
+	}
+}
+
+func createFileTable() {
+	err := DB.AutoMigrate(&models.File{})
+	if err != nil {
+		panic("failed to migrate File table")
 	}
 }
