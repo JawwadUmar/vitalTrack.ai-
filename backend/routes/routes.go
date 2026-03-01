@@ -1,12 +1,24 @@
 package routes
 
-import "github.com/gin-gonic/gin"
+import (
+	"vita-track-ai/middleware"
+
+	"github.com/gin-gonic/gin"
+)
 
 func RegisterRoutes(server *gin.Engine) {
+
 	api := server.Group("/api/v1")
 
+	// PUBLIC routes (no auth)
 	registerUserRoutes(api)
-	registerFileRoutes(api)
+
+	// PROTECTED routes
+	protected := api.Group("")
+	protected.Use(middleware.AuthMiddleware())
+
+	registerFileRoutes(protected)
+	registerDocumentRoutes(protected)
 }
 
 func registerUserRoutes(rg *gin.RouterGroup) {
@@ -23,5 +35,16 @@ func registerFileRoutes(rg *gin.RouterGroup) {
 	{
 		files.POST("/upload", uploadFile)
 		files.GET("/:id", getFile)
+	}
+}
+
+// ⭐ NEW
+func registerDocumentRoutes(rg *gin.RouterGroup) {
+	documents := rg.Group("/documents")
+	{
+		documents.POST("", createDocument)
+		documents.GET("/:id", getDocument)
+		documents.DELETE("/:id", deleteDocument)
+		documents.POST("/calendar", getCalendarDocuments)
 	}
 }
