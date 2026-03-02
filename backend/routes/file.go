@@ -27,3 +27,20 @@ func getFile(c *gin.Context) {
 		"url": url,
 	})
 }
+
+func getFileText(c *gin.Context) {
+	fileId := c.Param("id")
+	text, err := service.GenerateOCRText(fileId)
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error":        "failed to generate text",
+			"errorMessage": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"text": text,
+	})
+}
