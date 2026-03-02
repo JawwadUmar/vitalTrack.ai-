@@ -1,0 +1,132 @@
+/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+    /* Dynamic & Premium Medical Palette */
+    --primary: #0D9488;
+    /* Clinical Teal */
+    --primary-hover: #0F766E;
+    --secondary: #0369A1;
+    /* Trustworthy Blue */
+    --secondary-hover: #075985;
+
+    --bg-color: #F4F7F6;
+    /* Softer, premium off-white with a hint of green/blue */
+    --surface-color: #ffffff;
+
+    --text-main: #1F2937;
+    --text-muted: #4B5563;
+
+    --error: #DC2626;
+    --border-color: #E5E7EB;
+
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-full: 9999px;
+
+    --transition-fast: 0.15s ease-in-out;
+    --transition-normal: 0.3s ease-in-out;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Base Input & Form Styles */
+input,
+textarea {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    outline: none;
+    font-size: 1rem;
+    transition: all var(--transition-normal);
+    background-color: #F9FAFB;
+}
+
+input:focus,
+textarea:focus {
+    border-color: var(--primary);
+    background-color: var(--surface-color);
+    box-shadow: 0 0 0 4px rgba(13, 148, 136, 0.15);
+    /* Teal rgba */
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: #9CA3AF;
+}
+
+/* Base Button Styles */
+button {
+    cursor: pointer;
+    border: none;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 14px 24px;
+    transition: all var(--transition-fast);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+button.btn-primary {
+    background-color: var(--primary);
+    color: white;
+    box-shadow: 0 4px 6px rgba(13, 148, 136, 0.25);
+}
+
+button.btn-primary:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 8px rgba(13, 148, 136, 0.3);
+}
+
+button.btn-primary:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 4px rgba(13, 148, 136, 0.2);
+}
+
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Layout Utilities */
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Alerts */
+.error-message {
+    color: var(--error);
+    font-size: 0.875rem;
+    margin-top: 4px;
+    font-weight: 500;
+}

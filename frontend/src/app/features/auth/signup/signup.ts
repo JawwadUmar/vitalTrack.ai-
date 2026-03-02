@@ -1,0 +1,53 @@
+import { Component, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
+import { AuthService } from '../../../core/services/auth';
+
+@Component({
+  selector: 'app-signup',
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
+  templateUrl: './signup.html',
+  styleUrl: './signup.css',
+})
+export class Signup {
+  private fb = inject(FormBuilder);
+  private authService = inject(AuthService);
+  private router = inject(Router);
+
+  // Form group for Name, Email, Password
+  signupForm: FormGroup = this.fb.nonNullable.group({
+    name: ['', [Validators.required, Validators.minLength(2)]],
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', [Validators.required, Validators.minLength(6)]]
+  });
+
+  isLoading = false;
+  errorMessage = '';
+
+  onSubmit() {
+    if (this.signupForm.invalid) {
+      this.signupForm.markAllAsTouched();
+      return;
+    }
+
+    this.isLoading = true;
+    this.errorMessage = '';
+
+    const userData = this.signupForm.getRawValue();
+
+    this.authService.signup(userData).subscribe({
+      next: (response) => {
+        console.log('Signup successful', response);
+        this.router.navigate(['/login']);
+        this.isLoading = false;
+      },
+      error: (err) => {
+        console.error('Signup Error:', err);
+        this.errorMessage = err.error?.message || 'Failed to create an account. Please try again later.';
+        this.isLoading = false;
+      }
+    });
+  }
+}
