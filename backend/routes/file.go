@@ -44,3 +44,32 @@ func getFileText(c *gin.Context) {
 		"text": text,
 	})
 }
+
+func getFileAnalysis(c *gin.Context) {
+	fileId := c.Param("id")
+	jsonText, err := service.AnalyzeMedicalReport(fileId)
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error":        "failed to generate ai analysis",
+			"errorMessage": err.Error(),
+		})
+		return
+	}
+
+	// respBody := []byte(jsonText)
+	// report, err := utility.ParseResponse(respBody)
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error":        "failed to parse",
+			"errorMessage": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"json": jsonText,
+	})
+
+}

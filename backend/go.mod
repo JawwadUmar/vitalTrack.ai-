@@ -8,6 +8,7 @@ require (
 )
 
 require (
+	github.com/aws/aws-sdk-go-v2/service/bedrockruntime v1.50.0 // indirect
 	github.com/aws/aws-sdk-go-v2/service/textract v1.40.17 // indirect
 	github.com/gin-contrib/cors v1.7.6 // indirect
 )
