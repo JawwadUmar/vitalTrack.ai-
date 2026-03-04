@@ -324,8 +324,7 @@ Request:
 
 ```json
 {
-  "userId": "USER_ID",
-  "documentId": "DOC_ID"
+  "fileId": "file_id"
 }
 ```
 
@@ -333,67 +332,283 @@ Response:
 
 ```json
 {
-  "success": true,
-  "data": {
-    "analysisId": "ANALYSIS_ID",
-    "summary": "Hemoglobin slightly low",
-    "insights": [
-      "Increase iron-rich food",
-      "Stay hydrated"
-    ]
-  }
+    "json": {
+        "report_metadata": {
+            "report_date": "14-11-2025",
+            "report_type": "Laboratory Report",
+            "hospital_or_lab_name": "JEEVAN DIAGNOSTIC CENTRE"
+        },
+        "metrics": [
+            {
+                "test_name": "Serum Bilirubin Total",
+                "value": "0.76",
+                "unit": "mg/dl",
+                "reference_range": "0.3-1.2 mg/dl",
+                "status": "Normal"
+            },
+            {
+                "test_name": "Serum Bilirubin Direct",
+                "value": "0.24",
+                "unit": "mg/dl",
+                "reference_range": "0.1-0.4 mg/dl",
+                "status": "Normal"
+            },
+            {
+                "test_name": "Serum Bilirubin Indirect",
+                "value": "0.52",
+                "unit": "mg/dl",
+                "reference_range": "0.2-0.8 mg/dl",
+                "status": "Normal"
+            },
+            {
+                "test_name": "ALT (SGPT)",
+                "value": "84.0",
+                "unit": "IU/L",
+                "reference_range": "5-40 IU/L",
+                "status": "High"
+            },
+            {
+                "test_name": "AST (SGOT)",
+                "value": "72.0",
+                "unit": "IU/L",
+                "reference_range": "5-40 IU/L",
+                "status": "High"
+            },
+            {
+                "test_name": "Alkaline Phosphatase",
+                "value": "153.0",
+                "unit": "IU/L",
+                "reference_range": "25-130 IU/L",
+                "status": "High"
+            },
+            {
+                "test_name": "Serum Protein Total",
+                "value": "9.41",
+                "unit": "g/dl",
+                "reference_range": "5.5-8.0 g/dl",
+                "status": "High"
+            },
+            {
+                "test_name": "Serum Albumin",
+                "value": "4.23",
+                "unit": "g/dl",
+                "reference_range": "3.5-5.5 g/dl",
+                "status": "Normal"
+            },
+            {
+                "test_name": "Serum Globulin",
+                "value": "5.10",
+                "unit": "g/dl",
+                "reference_range": "2.0-3.5 g/dl",
+                "status": "High"
+            },
+            {
+                "test_name": "A:G Ratio",
+                "value": "0.82",
+                "unit": "",
+                "reference_range": "2:1",
+                "status": "Low"
+            },
+            {
+                "test_name": "Blood Urea",
+                "value": "64.0",
+                "unit": "mg/dl",
+                "reference_range": "10-40 mg/dl",
+                "status": "High"
+            },
+            {
+                "test_name": "Blood Urea Nitrogen (BUN)",
+                "value": "29.89",
+                "unit": "mg/dl",
+                "reference_range": "8-20 mg/dl",
+                "status": "High"
+            },
+            {
+                "test_name": "Serum Creatinine",
+                "value": "0.14",
+                "unit": "mg/dl",
+                "reference_range": "0.5-1.5 mg/dl",
+                "status": "Low"
+            },
+            {
+                "test_name": "Serum Uric Acid",
+                "value": "5.37",
+                "unit": "mg/dl",
+                "reference_range": "1.5-7.0 mg/dl",
+                "status": "Normal"
+            },
+            {
+                "test_name": "Serum Sodium",
+                "value": "149.0",
+                "unit": "mEq/L",
+                "reference_range": "135-145 mEq/L",
+                "status": "High"
+            },
+            {
+                "test_name": "Serum Potassium",
+                "value": "3.63",
+                "unit": "mEq/L",
+                "reference_range": "3.5-5.5 mEq/L",
+                "status": "Normal"
+            },
+            {
+                "test_name": "Serum Chloride",
+                "value": "8.21",
+                "unit": "mEq/L",
+                "reference_range": "97-107 mEq/L",
+                "status": "Low"
+            },
+            {
+                "test_name": "WBC Count",
+                "value": "8500",
+                "unit": "cells/µL",
+                "reference_range": "4000-11000 cells/µL",
+                "status": "Normal"
+            },
+            {
+                "test_name": "Platelet Count",
+                "value": "324000",
+                "unit": "cells/µL",
+                "reference_range": "150000-450000 cells/µL",
+                "status": "Normal"
+            },
+            {
+                "test_name": "RBC Count",
+                "value": "4.51",
+                "unit": "million/µL",
+                "reference_range": "3.5-5.5 million/µL",
+                "status": "Normal"
+            },
+            {
+                "test_name": "Hemoglobin",
+                "value": "11.7",
+                "unit": "g/dl",
+                "reference_range": "13.5-17.5 g/dl (male)",
+                "status": "Low"
+            },
+            {
+                "test_name": "Hematocrit (PCV)",
+                "value": "33.4",
+                "unit": "%",
+                "reference_range": "34-47 %",
+                "status": "Low"
+            },
+            {
+                "test_name": "MCV",
+                "value": "74.06",
+                "unit": "fL",
+                "reference_range": "80-96 fL",
+                "status": "Low"
+            },
+            {
+                "test_name": "MCH",
+                "value": "25.94",
+                "unit": "pg",
+                "reference_range": "27.5-33.2 pg",
+                "status": "Low"
+            },
+            {
+                "test_name": "MCHC",
+                "value": "35.03",
+                "unit": "%",
+                "reference_range": "33.4-35.5 %",
+                "status": "Normal"
+            },
+            {
+                "test_name": "Neutrophils",
+                "value": "76",
+                "unit": "%",
+                "reference_range": "40-70 %",
+                "status": "High"
+            },
+            {
+                "test_name": "Lymphocytes",
+                "value": "17",
+                "unit": "%",
+                "reference_range": "20-45 %",
+                "status": "Low"
+            },
+            {
+                "test_name": "Eosinophils",
+                "value": "5",
+                "unit": "%",
+                "reference_range": "2-6 %",
+                "status": "Normal"
+            },
+            {
+                "test_name": "Monocytes",
+                "value": "2",
+                "unit": "%",
+                "reference_range": "1-6 %",
+                "status": "Normal"
+            },
+            {
+                "test_name": "Basophils",
+                "value": "0",
+                "unit": "%",
+                "reference_range": "0-1 %",
+                "status": "Normal"
+            },
+            {
+                "test_name": "ESR (First Hour)",
+                "value": "35",
+                "unit": "mm",
+                "reference_range": "0-10 mm",
+                "status": "High"
+            },
+            {
+                "test_name": "Malaria Parasite",
+                "value": "Negative",
+                "unit": "",
+                "reference_range": "Negative",
+                "status": "Normal"
+            }
+        ],
+        "abnormal_findings": [
+            "ALT (SGPT)",
+            "AST (SGOT)",
+            "Alkaline Phosphatase",
+            "Serum Protein Total",
+            "Serum Globulin",
+            "A:G Ratio",
+            "Blood Urea",
+            "Blood Urea Nitrogen (BUN)",
+            "Serum Creatinine",
+            "Serum Sodium",
+            "Serum Chloride",
+            "Hemoglobin",
+            "Hematocrit (PCV)",
+            "MCV",
+            "MCH",
+            "Neutrophils",
+            "Lymphocytes",
+            "ESR (First Hour)"
+        ],
+        "simple_explanation": "Multiple liver enzymes, kidney function markers, and blood count parameters are outside their normal ranges, indicating hepatic stress, possible renal impairment, and anemia with a reactive neutrophil shift.",
+        "overall_risk_level": "Moderate",
+        "recommendations": {
+            "diet": [
+                "Limit high‑fat and fried foods",
+                "Reduce sodium intake",
+                "Increase intake of fruits, vegetables, and lean protein",
+                "Avoid alcohol"
+            ],
+            "lifestyle": [
+                "Stay well‑hydrated",
+                "Engage in moderate aerobic exercise 3‑4 times per week",
+                "Get adequate sleep (7‑8 hours)",
+                "Follow up with a physician within 2 weeks"
+            ]
+        },
+        "follow_up_suggestions": [
+            "Repeat liver function tests in 4‑6 weeks",
+            "Repeat renal panel and electrolytes",
+            "Complete iron studies and vitamin B12 assessment for anemia",
+            "Consult a gastroenterologist if liver enzymes remain elevated"
+        ]
+    }
 }
 ```
-
----
-
-### POST /ai/generate-food-recommendation
-
-Request:
-
-```json
-{
-  "userId": "USER_ID",
-  "analysisId": "ANALYSIS_ID"
-}
-```
-
-Response:
-
-```json
-{
-  "success": true,
-  "message": "Food recommendation generated"
-}
-```
-
----
-
-### POST /ai/get-food-recommendation
-
-Request:
-
-```json
-{
-  "userId": "USER_ID"
-}
-```
-
-Response:
-
-```json
-{
-  "success": true,
-  "data": {
-    "recommendedFoods": [
-      "Spinach",
-      "Lentils",
-      "Pomegranate"
-    ]
-  }
-}
-```
-
 ---
 
 ## HEALTH JOURNAL API
