@@ -8,7 +8,6 @@ import (
 	"net/http"
 	"os"
 	"strings"
-	"vita-track-ai/schema"
 )
 
 type Message struct {
@@ -17,10 +16,9 @@ type Message struct {
 }
 
 type AIRequestBody struct {
-	Model          string                 `json:"model"`
-	Input          []Message              `json:"input"`
-	Temperature    float64                `json:"temperature"`
-	ResponseFormat map[string]interface{} `json:"response_format"`
+	Model       string    `json:"model"`
+	Input       []Message `json:"input"`
+	Temperature float64   `json:"temperature"`
 }
 
 type AIResponse struct {
@@ -143,10 +141,6 @@ Generate the structured JSON response following the schema.
 			},
 		},
 		Temperature: 0.0,
-		ResponseFormat: map[string]interface{}{
-			"type":        "json_schema",
-			"json_schema": schema.MedicalReportSchema,
-		},
 	}
 
 	bodyBytes, err := json.Marshal(requestBody)
