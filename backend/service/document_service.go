@@ -2,6 +2,7 @@ package service
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"time"
 
@@ -42,6 +43,7 @@ func CreateDocument(c *gin.Context) {
 
 	tagsJSON, _ := json.Marshal(req.Tags)
 	userID := c.MustGet("user_id").(int64)
+	fmt.Println("The userid is %v", userID)
 	var parsedDate time.Time
 
 	if req.ReportDate != "" {
@@ -79,7 +81,7 @@ func CreateDocument(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"document_id": doc.ID,
+		"document_id": doc.FileID,
 		"status":      doc.Status,
 	})
 }
