@@ -292,40 +292,13 @@ Response:
 
 ## AI APIs
 
-### POST /ai/analyze-document
+### GET /files/ai/:fileId
 
-Request:
+Request (Params):
 
-```json
-{
-  "userId": "USER_ID",
-  "documentId": "DOC_ID"
-}
 ```
+id: 8044891e-e5cf-44fc-bdc4-2b3e8f7efcfb
 
-Response:
-
-```json
-{
-  "success": true,
-  "data": {
-    "analysisId": "ANALYSIS_ID",
-    "summary": "Hemoglobin slightly low",
-    "riskLevel": "Medium"
-  }
-}
-```
-
----
-
-### POST /ai/get-analysis
-
-Request:
-
-```json
-{
-  "fileId": "file_id"
-}
 ```
 
 Response:
