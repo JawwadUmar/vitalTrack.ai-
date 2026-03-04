@@ -167,15 +167,14 @@ Response:
 
 ---
 
-### POST /file/get-document-list [Needs to done]
+### POST /documents/calendar
 
 Request:
 
 ```json
 {
-  "userId": "USER_ID",
-  "page": 1,
-  "pageSize": 10
+    "month": 3,
+    "year": 2026
 }
 ```
 
@@ -183,15 +182,37 @@ Response:
 
 ```json
 {
-  "success": true,
-  "data": [
-    {
-      "documentId": "DOC_ID",
-      "title": "Blood Report",
-      "documentType": "Blood Test",
-      "uploadDate": "2026-02-25"
-    }
-  ]
+    "days": {
+        "2026-03-03": {
+            "count": 2,
+            "documents": [
+                {
+                    "id": "27d16371-64af-4514-aec7-8dfa16023919",
+                    "user_id": 36,
+                    "file_id": "ec037f8a-ba71-4c36-99ad-ff551b884317",
+                    "category": "general",
+                    "report_type": "Luffy",
+                    "file_type": "lab_report",
+                    "tags": "[\"fasting\",\"vitamin d\",\"abc\"]",
+                    "status": "uploaded",
+                    "report_date": "2026-03-03T05:30:00+05:30"
+                },
+                {
+                    "id": "f9c85001-b718-4c66-acbf-0dccc56ddcdb",
+                    "user_id": 36,
+                    "file_id": "711dcdff-f233-45d6-8601-e151a7314b80",
+                    "category": "general",
+                    "report_type": "present",
+                    "file_type": "lab_report",
+                    "tags": "[\"fasting\"]",
+                    "status": "uploaded",
+                    "report_date": "2026-03-03T05:30:00+05:30"
+                }
+            ]
+        }
+    },
+    "month": 3,
+    "year": 2026
 }
 ```
 
