@@ -250,23 +250,20 @@ Response:
 
 ---
 
-### POST /file/delete-document
+### DELETE /documents/:documentId
 
-Request:
+Request (Params):
 
-```json
-{
-  "userId": "USER_ID",
-  "documentId": "DOC_ID"
-}
+```
+id: 0e23fd6b-f6ad-42b4-a676-3682ab20b8cf
+
 ```
 
 Response:
 
 ```json
 {
-  "success": true,
-  "message": "Document deleted"
+    "message": "document deleted"
 }
 ```
 
