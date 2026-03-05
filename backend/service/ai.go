@@ -9,9 +9,17 @@ import (
 	"os"
 	"strings"
 	"vita-track-ai/models"
+	"vita-track-ai/repository"
 )
 
 func AnalyzeMedicalReport(fileId string) (*models.MedicalReport, error) {
+	reportDb, err := repository.GetMedicalReportByID(fileId)
+
+	if reportDb != nil {
+		report, err := models.GetMedicalReportFromDB(reportDb)
+		return report, err
+	}
+
 	ocrText, err := GenerateOCRText(fileId)
 	if err != nil {
 		return nil, fmt.Errorf("unable to get OCR text: %w", err)
@@ -66,7 +74,20 @@ func AnalyzeMedicalReport(fileId string) (*models.MedicalReport, error) {
 	if err != nil {
 		return nil, err
 	}
-	return extractMedicalReportFromAiResponse(aiResp)
+
+	report, err := extractMedicalReportFromAiResponse(aiResp)
+	if err != nil {
+		return nil, err
+	}
+
+	reportDb = models.GetMedicalReportDBFormat(report, fileId)
+	err = repository.CreateMedicalReport(reportDb)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return report, err
 }
 
 func extractMedicalReportFromAiResponse(aiResp models.AIResponse) (*models.MedicalReport, error) {

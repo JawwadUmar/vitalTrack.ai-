@@ -35,7 +35,8 @@ func Init() {
 func createTables() {
 	createUserTable()
 	createFileTable()
-	CreateDocumentTable()
+	createMedicalRecordTable()
+	createDocumentTable()
 }
 
 func createUserTable() {
@@ -53,8 +54,15 @@ func createFileTable() {
 	}
 }
 
-func CreateDocumentTable() {
+func createDocumentTable() {
 	err := DB.AutoMigrate(&models.Document{})
+	if err != nil {
+		panic("failed to migrate Document table")
+	}
+}
+
+func createMedicalRecordTable() {
+	err := DB.AutoMigrate(&models.MedicalReportDB{})
 	if err != nil {
 		panic("failed to migrate Document table")
 	}
