@@ -35,6 +35,8 @@ func registerFileRoutes(rg *gin.RouterGroup) {
 	{
 		files.POST("/upload", uploadFile)
 		files.GET("/:id", getFile)
+		files.GET("/ocr/:id", getFileText)
+		files.GET("/ai/:id", getFileAnalysis)
 	}
 }
 

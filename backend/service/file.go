@@ -1,14 +1,21 @@
 package service
 
 import (
+	"context"
+	"fmt"
 	"net/http"
 	"os"
 	"path/filepath"
 	"strings"
+	"time"
 
 	"vita-track-ai/models"
 	"vita-track-ai/repository"
 
+	"github.com/aws/aws-sdk-go-v2/aws"
+	"github.com/aws/aws-sdk-go-v2/config"
+	"github.com/aws/aws-sdk-go-v2/service/textract"
+	"github.com/aws/aws-sdk-go-v2/service/textract/types"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 )
@@ -113,4 +120,76 @@ func GetFileDownloadURL(fileID string) (string, error) {
 	}
 
 	return url, nil
+}
+
+func GenerateOCRText(fileId string) (string, error) {
+
+	ctx := context.Background()
+	s3Key, err := repository.GetS3Key(fileId)
+	if err != nil {
+		return "", err
+	}
+
+	bucket := os.Getenv("AWS_BUCKET_NAME")
+
+	awsCfg, err := config.LoadDefaultConfig(ctx)
+	if err != nil {
+		return "", err
+	}
+
+	client := textract.NewFromConfig(awsCfg)
+
+	// 3️⃣ Start async Textract job
+	startOut, err := client.StartDocumentTextDetection(ctx,
+		&textract.StartDocumentTextDetectionInput{
+			DocumentLocation: &types.DocumentLocation{
+				S3Object: &types.S3Object{
+					Bucket: aws.String(bucket),
+					Name:   aws.String(s3Key),
+				},
+			},
+		})
+
+	if err != nil {
+		return "", err
+	}
+
+	// 4️⃣ Wait for job completion
+	var fullText strings.Builder
+	var nextToken *string
+
+	for {
+		out, err := client.GetDocumentTextDetection(ctx,
+			&textract.GetDocumentTextDetectionInput{
+				JobId:     aws.String(*startOut.JobId),
+				NextToken: nextToken,
+			})
+		if err != nil {
+			return "", err
+		}
+
+		switch out.JobStatus {
+		case types.JobStatusInProgress:
+			time.Sleep(3 * time.Second)
+			continue
+
+		case types.JobStatusFailed:
+			return "", fmt.Errorf("textract job failed")
+
+		case types.JobStatusSucceeded:
+			for _, block := range out.Blocks {
+				if block.BlockType == types.BlockTypeLine && block.Text != nil {
+					fullText.WriteString(*block.Text)
+					fullText.WriteString("\n")
+				}
+			}
+
+			if out.NextToken == nil {
+				return fullText.String(), nil
+			}
+
+			nextToken = out.NextToken
+		}
+	}
+
 }

@@ -26,3 +26,19 @@ func GetFilesByUser(userID string) ([]models.File, error) {
 	}
 	return files, nil
 }
+
+func GetS3Key(fileId string) (string, error) {
+	var s3Key string
+
+	err := database.DB.
+		Model(&models.File{}).
+		Select("s3_key").
+		Where("id = ?", fileId).
+		Scan(&s3Key).
+		Error
+
+	if err != nil {
+		return "", err
+	}
+	return s3Key, nil
+}
