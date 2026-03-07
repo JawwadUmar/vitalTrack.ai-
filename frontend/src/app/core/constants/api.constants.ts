@@ -2,6 +2,8 @@ import { environment } from '../../../environments/environment';
 
 export const API_CONSTANTS = {
   BASE_URL: environment.apiUrl,
+  // when you create the build please paste below in the above line
+  // http://43.205.212.220:8081/api/v1
   get LOGIN_URL() {
     return `${this.BASE_URL}/users/login`;
   },
