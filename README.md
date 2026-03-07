@@ -625,3 +625,25 @@ Analyze Document → ANALYSIS_ID
 Generate Food Recommendation → USER_ID + ANALYSIS_ID
 Timeline → USER_ID + Date Range
 ```
+
+## Current Deploy Flow
+
+1. **Create the build:**
+
+   ```bash
+   ng build --configuration production
+   ```
+
+2. **Navigate to the output folder:**
+
+   `AI_Bharat\vitalTrack.ai-\frontend\dist\vitalTrackFrontend\browser`
+
+3. **Copy all the generated files.**
+
+4. **On the VM**, navigate to:
+
+   `C:\inetpub\wwwroot`
+
+5. **Remove all existing files** in that folder and **paste the new files** (from step 3).
+
+6. The latest version of the frontend will now be live via the IIS-hosted server / public IP.
