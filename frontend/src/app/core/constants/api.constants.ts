@@ -16,5 +16,8 @@ export const API_CONSTANTS = {
   },
   get DOCUMENTS_URL() {
     return `${this.BASE_URL}/documents`;
+  },
+  get FILES_AI_URL() {
+    return `${this.BASE_URL}/files/ai`;
   }
 };
