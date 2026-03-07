@@ -590,3 +590,75 @@ select {
 .fullscreen-close:hover {
     color: #F87171;
 }
+
+/* ==================== LOADER SPINNER ==================== */
+.loader {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    flex-shrink: 0;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ==================== AI ANALYSIS BUTTON (Details Modal) ==================== */
+.btn-ai-analysis-modal {
+    width: 100%;
+    padding: 14px 20px;
+    border: none;
+    border-radius: var(--radius-md);
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #0D9488 100%);
+    color: white;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 16px rgba(99, 102, 241, 0.35);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-ai-analysis-modal::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #0F766E 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.btn-ai-analysis-modal:hover::before {
+    opacity: 1;
+}
+
+.btn-ai-analysis-modal>* {
+    position: relative;
+    z-index: 1;
+}
+
+.btn-ai-analysis-modal:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 24px rgba(99, 102, 241, 0.45);
+}
+
+.btn-ai-analysis-modal:active {
+    transform: translateY(0);
+}
+
+.btn-ai-analysis-modal:disabled {
+    opacity: 0.85;
+    cursor: not-allowed;
+    transform: none;
+}

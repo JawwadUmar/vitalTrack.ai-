@@ -35,4 +35,8 @@ export class DocumentService {
   deleteDocument(id: string): Observable<any> {
     return this.http.delete(`${API_CONSTANTS.DOCUMENTS_URL}/${id}`);
   }
+
+  getAiAnalysis(fileId: string): Observable<any> {
+    return this.http.get(`${API_CONSTANTS.FILES_AI_URL}/${fileId}`);
+  }
 }

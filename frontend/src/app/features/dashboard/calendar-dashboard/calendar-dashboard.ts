@@ -366,6 +366,10 @@ export class CalendarDashboard implements OnInit {
   }
 
   detailsError: string = '';
+
+  // AI Analysis state
+  isAnalyzing = false;
+  analyzeError = '';
   isFullscreenImage: boolean = false;
   pdfBlobUrl: string | null = null;
 
@@ -493,12 +497,46 @@ export class CalendarDashboard implements OnInit {
     this.selectedFileUrl = null;
     this.rawFileUrl = '';
     this.isFullscreenImage = false;
+    this.isAnalyzing = false;
+    this.analyzeError = '';
     
     // Cleanup memory from our temporary blob URLs
     if (this.pdfBlobUrl) {
       URL.revokeObjectURL(this.pdfBlobUrl);
       this.pdfBlobUrl = null;
     }
+  }
+
+  getAiAnalysis() {
+    if (!this.selectedDocDetails) return;
+    const fileId = this.selectedDocDetails?.file_id || this.selectedDocDetails?.id;
+    const docName = this.selectedDocDetails?.report_type || 'Report';
+    if (!fileId) {
+      this.toastService.showError('No file ID found for AI analysis.');
+      return;
+    }
+    this.isAnalyzing = true;
+    this.analyzeError = '';
+    this.documentService.getAiAnalysis(fileId).subscribe({
+      next: (response) => {
+        this.isAnalyzing = false;
+        let analysisData = response;
+        if (response?.json) analysisData = response.json;
+        else if (response?.data?.json) analysisData = response.data.json;
+        else if (response?.data) analysisData = response.data;
+        this.closeDocumentDetails();
+        this.router.navigate(['/analysis'], {
+          state: { analysisData, docName }
+        });
+      },
+      error: (err) => {
+        this.isAnalyzing = false;
+        const msg = err?.error?.message || 'Failed to get AI analysis. Please try again.';
+        this.analyzeError = msg;
+        this.toastService.showError(msg);
+        this.cdr.detectChanges();
+      }
+    });
   }
 
   isImageFile(): boolean {
