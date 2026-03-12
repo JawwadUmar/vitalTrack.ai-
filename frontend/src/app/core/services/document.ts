@@ -33,7 +33,7 @@ export class DocumentService {
   }
 
   deleteDocument(id: string): Observable<any> {
-    return this.http.delete(`${API_CONSTANTS.DOCUMENTS_URL}/${id}`);
+    return this.http.delete(`${API_CONSTANTS.FILE_URL}/${id}`);
   }
 
   getAiAnalysis(fileId: string): Observable<any> {
