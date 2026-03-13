@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"errors"
 	"net/http"
+	"time"
 	"vita-track-ai/models"
 	"vita-track-ai/repository"
 	"vita-track-ai/utility"
@@ -12,9 +13,11 @@ import (
 )
 
 type SignupRequest struct {
-	Email    string `form:"email" binding:"required,email"`
-	Password string `form:"password" binding:"required,min=8"`
-	Name     string `form:"name" binding:"required"`
+	Email    string     `form:"email" binding:"required,email"`
+	Password string     `form:"password" binding:"required,min=8"`
+	Name     string     `form:"name" binding:"required"`
+	DOB      *time.Time `form:"dob" time_format:"2006-01-02"`
+	Gender   *string    `form:"gender"`
 }
 
 type LoginRequest struct {
@@ -42,6 +45,8 @@ func signup(context *gin.Context) {
 	user.Email = signupRequest.Email
 	user.Password = &signupRequest.Password
 	user.Name = signupRequest.Name
+	user.DOB = signupRequest.DOB
+	user.Gender = signupRequest.Gender
 
 	_, err = repository.GetUserModelByEmail(user.Email)
 
