@@ -584,6 +584,23 @@ Response:
 ```
 ---
 
+## GET User Details API
+
+### GET /user-details/usage
+
+Response:
+
+```json
+{
+    "data": {
+        "UserID": 2,
+        "TotalStorageUsed": 321344
+    },
+    "message": "User storage usage fetched successfully"
+}
+```
+---
+
 ## HEALTH JOURNAL API
 
 ### POST /user/get-health-timeline
