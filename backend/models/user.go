@@ -16,3 +16,8 @@ type User struct {
 	CreatedAt  time.Time //YYYY-MM-DD HH:MM:SS.microseconds stored in DB
 	UpdatedAt  time.Time
 }
+
+type UserUsage struct {
+	UserID           int64 `gorm:"column:user_id;"`
+	TotalStorageUsed int64 `gorm:"column:total_storage_used;"`
+}
