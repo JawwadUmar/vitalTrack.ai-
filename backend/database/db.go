@@ -1,7 +1,9 @@
 package database
 
 import (
+	"context"
 	"os"
+	"path/filepath"
 	"vita-track-ai/models"
 
 	"gorm.io/driver/postgres"
@@ -37,6 +39,7 @@ func createTables() {
 	createFileTable()
 	createMedicalRecordTable()
 	createDocumentTable()
+	createUserStorageMV()
 }
 
 func createUserTable() {
@@ -66,4 +69,16 @@ func createMedicalRecordTable() {
 	if err != nil {
 		panic("failed to migrate Document table")
 	}
+}
+
+func runSQLFile(path string) error {
+	b, err := os.ReadFile(filepath.Clean(path))
+	if err != nil {
+		return err
+	}
+	return DB.WithContext(context.Background()).Exec(string(b)).Error
+}
+
+func createUserStorageMV() error {
+	return runSQLFile("sql/USER_STORAGE.sql")
 }
