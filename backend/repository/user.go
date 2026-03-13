@@ -68,3 +68,13 @@ func UpdateGoogleId(u *models.User) error {
 
 	return err
 }
+
+func GetCurrentStorageUsed(userId int64) (int64, error) {
+	var userUsage models.UserUsage
+	tx := database.DB.Table("user_usage").
+		Select("total_storage_used").
+		Where("user_id = ?", userId).
+		Scan(&userUsage.TotalStorageUsed)
+
+	return userUsage.TotalStorageUsed, tx.Error
+}

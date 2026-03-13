@@ -17,7 +17,7 @@ type User struct {
 	UpdatedAt  time.Time
 }
 
-type UserUsageMV struct {
-	UserID           int64 `gorm:"column:user_id;primaryKey;"`
+type UserUsage struct {
+	UserID           int64 `gorm:"column:user_id;"`
 	TotalStorageUsed int64 `gorm:"column:total_storage_used;"`
 }
