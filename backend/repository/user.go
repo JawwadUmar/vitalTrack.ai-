@@ -15,7 +15,14 @@ func GetUserModelByEmail(email string) (models.User, error) {
 	err := tx.Error
 
 	return user, err
+}
 
+func GetUserModelById(id int64) (models.User, error) {
+	var user models.User
+	tx := database.DB.Where("user_id = ?", id).First(&user)
+	err := tx.Error
+
+	return user, err
 }
 
 func SaveUser(u *models.User) error {
@@ -78,4 +85,13 @@ func GetCurrentStorageUsed(userId int64) (*models.UserUsage, error) {
 		Scan(&userUsage.TotalStorageUsed)
 
 	return &userUsage, tx.Error
+}
+
+func UpdateUser(userModel *models.User) error {
+	query, err := database.ReadSQLFile("sql/UPATE_USER.sql")
+	if err != nil {
+		return err
+	}
+
+	return database.DB.Exec(query, userModel.Name, userModel.DOB, userModel.Gender, userModel.ProfilePic, userModel.UserId).Error
 }
