@@ -68,7 +68,7 @@ Response:
         "name": "Eren Yaegar",
         "dob": "1950-11-23T00:00:00+05:30",
         "gender": "Male",
-        "profile_pic": null,
+        "profile_pic": "profile-pics-eren@gmail.com",
         "CreatedAt": "2026-03-14T02:38:17.7815419+05:30",
         "UpdatedAt": "2026-03-14T02:38:17.7815419+05:30"
     }
