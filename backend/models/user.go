@@ -48,7 +48,7 @@ type GoogleLoginRequest struct {
 // ===========================Update User Request=================================================
 type UpdateUserRequest struct {
 	Name             *string               `form:"name"`
-	DOB              *time.Time            `form:"dob"`
+	DOB              *time.Time            `form:"dob" time_format:"2006-01-02"`
 	DeleteProfilePic *string               `form:"delete_profile_pic"`
 	Gender           *string               `form:"gender"`
 	ProfilePic       *multipart.FileHeader `form:"profile_pic"`

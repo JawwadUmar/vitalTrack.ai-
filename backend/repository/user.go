@@ -3,7 +3,6 @@ package repository
 import (
 	"errors"
 	"fmt"
-	"time"
 	"vita-track-ai/database"
 	"vita-track-ai/models"
 	"vita-track-ai/utility"
@@ -95,11 +94,11 @@ func UpdateUser(userModel *models.User) error {
 		return err
 	}
 
-	if userModel.DOB != nil {
-		dobStr := userModel.DOB.Format("2006-01-02")
-		tempDOB, _ := time.Parse("2006-01-02", dobStr)
-		userModel.DOB = &tempDOB
-	}
+	// if userModel.DOB != nil {
+	// 	dobStr := userModel.DOB.Format("2006-01-02")
+	// 	tempDOB, _ := time.Parse("2006-01-02", dobStr)
+	// 	userModel.DOB = &tempDOB
+	// }
 
 	fmt.Println(userModel)
 
