@@ -1,7 +1,6 @@
 package service
 
 import (
-	"errors"
 	"mime/multipart"
 	"os"
 	"vita-track-ai/models"
@@ -75,8 +74,6 @@ func ManageUserUpdateRequest(updateUserReq models.UpdateUserRequest, userId int6
 		}
 
 		userModel.ProfilePic = nil
-	} else {
-		return nil, errors.New("Invalid Request")
 	}
 
 	if updateUserReq.Name != nil {
