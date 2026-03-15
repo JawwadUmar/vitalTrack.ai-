@@ -68,3 +68,9 @@ func UpdateGoogleId(u *models.User) error {
 
 	return err
 }
+
+func UpdateUser(u *models.User) error {
+	return database.DB.Model(&models.User{}).
+		Where("user_id = ?", u.UserId).
+		Updates(u).Error
+}

@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"errors"
 	"net/http"
+	"time"
 	"vita-track-ai/models"
 	"vita-track-ai/repository"
 	"vita-track-ai/utility"
@@ -53,6 +54,14 @@ func signup(context *gin.Context) {
 		return
 	}
 
+	// 🔹 Generate OTP
+	otp := utility.GenerateOTP()
+	expiry := time.Now().Add(5 * time.Minute)
+
+	user.IsVerified = false
+	user.OTP = &otp
+	user.OTPExpiresAt = &expiry
+
 	err = repository.SaveUser(&user)
 
 	if err != nil {
@@ -63,7 +72,11 @@ func signup(context *gin.Context) {
 		return
 	}
 
-	context.JSON(http.StatusOK, gin.H{"users": user})
+	go utility.SendEmail(user.Email, otp)
+
+	context.JSON(http.StatusOK, gin.H{
+		"message": "Signup successful. Please verify OTP sent to your email.",
+	})
 }
 
 func login(context *gin.Context) {
@@ -202,4 +215,44 @@ func googleLogin(context *gin.Context) {
 		"token":   token,
 	})
 
+}
+
+func verifyOTP(context *gin.Context) {
+
+	var req struct {
+		Email string `json:"email"`
+		OTP   string `json:"otp"`
+	}
+
+	if err := context.ShouldBindJSON(&req); err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	user, err := repository.GetUserModelByEmail(req.Email)
+
+	if err != nil {
+		context.JSON(http.StatusNotFound, gin.H{"message": "User not found"})
+		return
+	}
+
+	if user.OTP == nil || *user.OTP != req.OTP {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Invalid OTP"})
+		return
+	}
+
+	if user.OTPExpiresAt.Before(time.Now()) {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "OTP expired"})
+		return
+	}
+
+	user.IsVerified = true
+	user.OTP = nil
+	user.OTPExpiresAt = nil
+
+	repository.UpdateUser(&user)
+
+	context.JSON(http.StatusOK, gin.H{
+		"message": "Email verified successfully",
+	})
 }
