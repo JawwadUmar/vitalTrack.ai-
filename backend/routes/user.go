@@ -44,14 +44,24 @@ func signup(context *gin.Context) {
 	user.Password = &signupRequest.Password
 	user.Name = signupRequest.Name
 
-	_, err = repository.GetUserModelByEmail(user.Email)
+	existingUser, err := repository.GetUserModelByEmail(user.Email)
 
 	if err == nil {
-		context.JSON(http.StatusConflict, gin.H{
-			"message": "User Already Exists",
-			"error":   errors.New("User Already Exists").Error(),
-		})
-		return
+		if existingUser.IsVerified {
+			context.JSON(http.StatusConflict, gin.H{
+				"message": "User Already Exists",
+				"error":   errors.New("User Already Exists").Error(),
+			})
+			return
+		}
+		// User exists but is not verified — delete and allow re-signup
+		if delErr := repository.DeleteUserByEmail(user.Email); delErr != nil {
+			context.JSON(http.StatusInternalServerError, gin.H{
+				"message": "Failed to reset unverified user",
+				"error":   delErr.Error(),
+			})
+			return
+		}
 	}
 
 	// 🔹 Generate OTP

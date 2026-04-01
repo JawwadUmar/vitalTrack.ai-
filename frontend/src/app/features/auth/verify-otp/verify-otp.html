@@ -1,0 +1,98 @@
+<div class="auth-container">
+  <div class="auth-card" [class.verified]="isVerified">
+
+    <!-- ───────── SUCCESS STATE ───────── -->
+    <div *ngIf="isVerified" class="success-state">
+      <div class="success-icon-wrapper">
+        <svg class="success-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+          <polyline points="22 4 12 14.01 9 11.01"></polyline>
+        </svg>
+      </div>
+      <h2>Email Verified!</h2>
+      <p>Your account has been verified successfully. You're all set to log in.</p>
+      <button class="btn-primary full-width" (click)="goToLogin()">
+        Continue to Login
+      </button>
+    </div>
+
+    <!-- ───────── VERIFY FORM STATE ───────── -->
+    <ng-container *ngIf="!isVerified">
+      <div class="auth-header">
+        <div class="logo">
+          <span class="logo-icon">+</span>
+          <h1>Vitatrack.ai</h1>
+        </div>
+        <div class="email-badge">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+            <polyline points="22,6 12,13 2,6"></polyline>
+          </svg>
+          <span>{{ email }}</span>
+        </div>
+        <h2>Verify Your Email</h2>
+        <p>We sent a 6-digit OTP to your email.<br>Enter it below to activate your account.</p>
+      </div>
+
+      <form [formGroup]="otpForm" (ngSubmit)="onSubmit()" class="auth-form">
+
+        <div class="form-group">
+          <label for="otp">One-Time Password</label>
+          <input
+            id="otp"
+            type="text"
+            inputmode="numeric"
+            autocomplete="one-time-code"
+            formControlName="otp"
+            placeholder="Enter 6-digit OTP"
+            maxlength="6"
+            [class.invalid]="otpForm.get('otp')?.invalid && otpForm.get('otp')?.touched">
+          <div class="error-message" *ngIf="otpForm.get('otp')?.invalid && otpForm.get('otp')?.touched">
+            <span *ngIf="otpForm.get('otp')?.hasError('required')">OTP is required.</span>
+            <span *ngIf="otpForm.get('otp')?.hasError('minlength') || otpForm.get('otp')?.hasError('maxlength')">
+              OTP must be exactly 6 digits.
+            </span>
+            <span *ngIf="otpForm.get('otp')?.hasError('pattern')">OTP must contain only numbers.</span>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <div class="api-error" *ngIf="errorMessage">{{ errorMessage }}</div>
+
+          <button type="submit" class="btn-primary full-width" [disabled]="isLoading">
+            <span *ngIf="!isLoading">Verify OTP</span>
+            <span *ngIf="isLoading" class="loader"></span>
+          </button>
+        </div>
+      </form>
+
+      <!-- Resend row -->
+      <div class="resend-row">
+        <span>Didn't receive the code?</span>
+        <button
+          class="resend-btn"
+          [disabled]="!canResend"
+          (click)="resendOTP()">
+          <span *ngIf="!isResending && retryCountdown > 0">
+            Retry in <strong>{{ retryCountdown }}s</strong>
+          </span>
+          <span *ngIf="!isResending && retryCountdown === 0">Resend OTP</span>
+          <span *ngIf="isResending" class="loader resend-loader"></span>
+        </button>
+      </div>
+
+      <div class="auth-footer">
+        <p>Wrong email? <a routerLink="/signup">Sign up again</a></p>
+      </div>
+    </ng-container>
+
+  </div>
+
+  <!-- Trademark and Credits -->
+  <div class="global-footer">
+    <p>Vitatrack.ai is forever free to use.</p>
+    <p>Developed with ❤️ by the ByIITians team.</p>
+  </div>
+</div>

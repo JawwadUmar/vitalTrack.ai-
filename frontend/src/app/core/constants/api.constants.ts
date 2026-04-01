@@ -24,5 +24,8 @@ export const API_CONSTANTS = {
   },
   get FILES_AI_URL() {
     return `${this.BASE_URL}/files/ai`;
+  },
+  get VERIFY_OTP_URL() {
+    return `${this.BASE_URL}/users/verify-otp`;
   }
 };

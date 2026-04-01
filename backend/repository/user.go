@@ -74,3 +74,7 @@ func UpdateUser(u *models.User) error {
 		Where("user_id = ?", u.UserId).
 		Updates(u).Error
 }
+
+func DeleteUserByEmail(email string) error {
+	return database.DB.Where("email = ?", email).Delete(&models.User{}).Error
+}

@@ -29,6 +29,10 @@ export class AuthService {
     return this.http.post(API_CONSTANTS.SIGNUP_URL, formData);
   }
 
+  verifyOTP(email: string, otp: string): Observable<any> {
+    return this.http.post(API_CONSTANTS.VERIFY_OTP_URL, { email, otp });
+  }
+
   getToken(): string | null {
     return localStorage.getItem(this.tokenKey);
   }
