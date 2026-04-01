@@ -2,7 +2,6 @@ package repository
 
 import (
 	"errors"
-	"fmt"
 	"vita-track-ai/database"
 	"vita-track-ai/models"
 	"vita-track-ai/utility"
@@ -77,30 +76,12 @@ func UpdateGoogleId(u *models.User) error {
 	return err
 }
 
-func GetCurrentStorageUsed(userId int64) (*models.UserUsage, error) {
-	var userUsage models.UserUsage
-	userUsage.UserID = userId
-	tx := database.DB.Table("user_usage").
-		Select("total_storage_used").
-		Where("user_id = ?", userId).
-		Scan(&userUsage.TotalStorageUsed)
-
-	return &userUsage, tx.Error
+func UpdateUser(u *models.User) error {
+	return database.DB.Model(&models.User{}).
+		Where("user_id = ?", u.UserId).
+		Updates(u).Error
 }
 
-func UpdateUser(userModel *models.User) error {
-	query, err := database.ReadSQLFile("sql/UPDATE_USER.sql")
-	if err != nil {
-		return err
-	}
-
-	// if userModel.DOB != nil {
-	// 	dobStr := userModel.DOB.Format("2006-01-02")
-	// 	tempDOB, _ := time.Parse("2006-01-02", dobStr)
-	// 	userModel.DOB = &tempDOB
-	// }
-
-	fmt.Println(userModel)
-
-	return database.DB.Exec(query, userModel.Name, userModel.DOB, userModel.Gender, userModel.ProfilePic, userModel.UserId).Error
+func DeleteUserByEmail(email string) error {
+	return database.DB.Where("email = ?", email).Delete(&models.User{}).Error
 }

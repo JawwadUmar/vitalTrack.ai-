@@ -4,9 +4,9 @@ import (
 	"database/sql"
 	"errors"
 	"net/http"
+	"time"
 	"vita-track-ai/models"
 	"vita-track-ai/repository"
-	"vita-track-ai/service"
 	"vita-track-ai/utility"
 
 	"github.com/gin-gonic/gin"
@@ -32,28 +32,33 @@ func signup(context *gin.Context) {
 	user.Gender = signupRequest.Gender
 	fileHeader := signupRequest.ProfilePic
 
-	_, err = repository.GetUserModelByEmail(user.Email)
+	existingUser, err := repository.GetUserModelByEmail(user.Email)
 
 	if err == nil {
-		context.JSON(http.StatusConflict, gin.H{
-			"message": "User Already Exists",
-			"error":   errors.New("User Already Exists").Error(),
-		})
-		return
-	}
-
-	if fileHeader != nil {
-		storageKey, err := service.UploadProfilePicToS3(fileHeader, user.Email)
-
-		if err != nil {
-			context.JSON(http.StatusInternalServerError, gin.H{
-				"message": "Failed to upload profile picture",
-				"error":   err.Error(),
+		if existingUser.IsVerified {
+			context.JSON(http.StatusConflict, gin.H{
+				"message": "User Already Exists",
+				"error":   errors.New("User Already Exists").Error(),
 			})
 			return
 		}
-		user.ProfilePic = &storageKey
+		// User exists but is not verified — delete and allow re-signup
+		if delErr := repository.DeleteUserByEmail(user.Email); delErr != nil {
+			context.JSON(http.StatusInternalServerError, gin.H{
+				"message": "Failed to reset unverified user",
+				"error":   delErr.Error(),
+			})
+			return
+		}
 	}
+
+	// 🔹 Generate OTP
+	otp := utility.GenerateOTP()
+	expiry := time.Now().Add(5 * time.Minute)
+
+	user.IsVerified = false
+	user.OTP = &otp
+	user.OTPExpiresAt = &expiry
 
 	err = repository.SaveUser(&user)
 
@@ -65,7 +70,11 @@ func signup(context *gin.Context) {
 		return
 	}
 
-	context.JSON(http.StatusOK, gin.H{"users": user})
+	go utility.SendEmail(user.Email, otp)
+
+	context.JSON(http.StatusOK, gin.H{
+		"message": "Signup successful. Please verify OTP sent to your email.",
+	})
 }
 
 func login(context *gin.Context) {
@@ -206,61 +215,42 @@ func googleLogin(context *gin.Context) {
 
 }
 
-func getUserUsage(c *gin.Context) {
-	userID := c.MustGet("user_id").(int64)
-	userUsage, err := repository.GetCurrentStorageUsed(userID)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"message": "Some problem with fetching user storage usage",
-			"error":   err.Error(),
-		})
-		return
+func verifyOTP(context *gin.Context) {
+
+	var req struct {
+		Email string `json:"email"`
+		OTP   string `json:"otp"`
 	}
-	c.JSON(http.StatusOK, gin.H{
-		"message": "User storage usage fetched successfully",
-		"data":    userUsage,
-	})
-}
 
-func updateProfile(context *gin.Context) {
-
-	var updateUserReq models.UpdateUserRequest
-	err := context.ShouldBind(&updateUserReq)
-
-	if err != nil {
-		context.JSON(http.StatusBadRequest, gin.H{
-			"message": "Unable to pass the values into the updateProfile",
-			"error":   err.Error(),
-		})
-
+	if err := context.ShouldBindJSON(&req); err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	userID := context.MustGet("user_id").(int64)
-
-	userModel, err := service.ManageUserUpdateRequest(updateUserReq, userID)
+	user, err := repository.GetUserModelByEmail(req.Email)
 
 	if err != nil {
-		context.JSON(http.StatusInternalServerError, gin.H{
-			"message": "There is a problem in updating the user",
-			"error":   err.Error(),
-		})
+		context.JSON(http.StatusNotFound, gin.H{"message": "User not found"})
 		return
 	}
 
-	err = repository.UpdateUser(userModel)
-
-	if err != nil {
-		context.JSON(http.StatusInternalServerError, gin.H{
-			"message": "Some problem with database in updating the user",
-			"error":   err.Error(),
-		})
+	if user.OTP == nil || *user.OTP != req.OTP {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "Invalid OTP"})
 		return
 	}
+
+	if user.OTPExpiresAt.Before(time.Now()) {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "OTP expired"})
+		return
+	}
+
+	user.IsVerified = true
+	user.OTP = nil
+	user.OTPExpiresAt = nil
+
+	repository.UpdateUser(&user)
 
 	context.JSON(http.StatusOK, gin.H{
-		"message": "Update successful",
-		"user":    userModel,
+		"message": "Email verified successfully",
 	})
-
 }

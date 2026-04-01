@@ -1,0 +1,406 @@
+/* ─────────────────────────────────────────────
+   Inherits the same animated background & glass
+   card look as login / signup
+───────────────────────────────────────────── */
+
+.auth-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding: 24px;
+  background: linear-gradient(-45deg, #E0EFE5, #BCE4DB, #E0EFE5, #9CE0D3);
+  background-size: 300% 300%;
+  animation: gradientBG 15s ease infinite;
+  position: relative;
+  overflow: hidden;
+}
+
+.auth-container::before,
+.auth-container::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  z-index: 0;
+  animation: float 10s ease-in-out infinite;
+}
+
+.auth-container::before {
+  background: rgba(13, 148, 136, 0.4);
+  width: 400px;
+  height: 400px;
+  top: -100px;
+  left: -100px;
+}
+
+.auth-container::after {
+  background: rgba(3, 105, 161, 0.3);
+  width: 350px;
+  height: 350px;
+  bottom: -50px;
+  right: -50px;
+  animation-delay: -5s;
+}
+
+/* ─── Card ─── */
+.auth-card {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 440px;
+  margin: auto;
+  background-color: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: var(--radius-lg);
+  box-shadow:
+    0 8px 32px rgba(13, 148, 136, 0.15),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+  padding: 48px 40px;
+  animation: slideUpGlass 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  transition: box-shadow 0.4s ease;
+}
+
+/* success glow */
+.auth-card.verified {
+  box-shadow:
+    0 8px 40px rgba(13, 148, 136, 0.3),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.6);
+}
+
+/* ─── Header ─── */
+.auth-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.logo-icon {
+  background-color: var(--primary);
+  color: white;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.auth-header h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-main);
+  letter-spacing: -0.5px;
+}
+
+/* Email badge pill */
+.email-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(13, 148, 136, 0.08);
+  border: 1px solid rgba(13, 148, 136, 0.2);
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--primary);
+  margin-bottom: 16px;
+  word-break: break-all;
+}
+
+.email-badge svg {
+  flex-shrink: 0;
+  stroke: var(--primary);
+}
+
+.auth-header h2 {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: var(--text-main);
+  margin-bottom: 8px;
+}
+
+.auth-header p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+/* ─── Form ─── */
+.form-group {
+  margin-bottom: 24px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+  letter-spacing: 0.3px;
+}
+
+.auth-card input {
+  width: 100%;
+  padding: 16px 20px;
+  border: 1px solid #E2E8F0;
+  border-radius: var(--radius-md);
+  outline: none;
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  color: var(--text-main);
+  background-color: #F8FAFC;
+  transition: all var(--transition-fast);
+  text-align: center;
+}
+
+.auth-card input:hover {
+  background-color: #F1F5F9;
+  border-color: #CBD5E1;
+}
+
+.auth-card input:focus {
+  background-color: #ffffff;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(13, 148, 136, 0.15);
+}
+
+.auth-card input::placeholder {
+  color: #94A3B8;
+  letter-spacing: normal;
+  font-weight: 400;
+}
+
+input.invalid {
+  border-color: var(--error);
+  background-color: #FEF2F2;
+}
+
+input.invalid:focus {
+  box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.15);
+}
+
+/* ─── Validation messages ─── */
+.error-message {
+  margin-top: 6px;
+  font-size: 0.82rem;
+  color: var(--error);
+  font-weight: 500;
+}
+
+/* ─── Submit button ─── */
+.full-width {
+  width: 100%;
+  padding: 16px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin-top: 4px;
+  letter-spacing: 0.5px;
+  border-radius: var(--radius-md);
+}
+
+/* ─── API error block ─── */
+.api-error {
+  background-color: #FEF2F2;
+  border-left: 4px solid var(--error);
+  padding: 12px 16px;
+  border-radius: 4px;
+  color: var(--error);
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: 16px;
+}
+
+/* ─── Resend row ─── */
+.resend-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 20px;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  flex-wrap: wrap;
+}
+
+.resend-btn {
+  background: none;
+  border: none;
+  padding: 4px 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--primary);
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.2s, color 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 100px;
+  justify-content: center;
+}
+
+.resend-btn:hover:not(:disabled) {
+  background: rgba(13, 148, 136, 0.08);
+  color: var(--primary-hover);
+}
+
+.resend-btn:disabled {
+  color: var(--text-muted);
+  cursor: not-allowed;
+  opacity: 0.75;
+}
+
+.resend-btn strong {
+  font-variant-numeric: tabular-nums;
+  display: inline-block;
+  min-width: 24px;
+  text-align: left;
+}
+
+/* ─── Loaders ─── */
+.loader {
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top: 2px solid white;
+  width: 20px;
+  height: 20px;
+  animation: spin 1s linear infinite;
+  display: inline-block;
+}
+
+.resend-loader {
+  border-color: rgba(13, 148, 136, 0.2);
+  border-top-color: var(--primary);
+  width: 16px;
+  height: 16px;
+}
+
+/* ─── Success state ─── */
+.success-state {
+  text-align: center;
+  animation: scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.success-icon-wrapper {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(13, 148, 136, 0.15), rgba(3, 105, 161, 0.12));
+  border: 2px solid rgba(13, 148, 136, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 24px;
+  animation: pulse-ring 2s ease-out infinite;
+}
+
+.success-icon {
+  width: 40px;
+  height: 40px;
+  stroke: var(--primary);
+  animation: checkDraw 0.5s ease forwards;
+}
+
+.success-state h2 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 12px;
+}
+
+.success-state p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin-bottom: 32px;
+}
+
+/* ─── Footer links ─── */
+.auth-footer {
+  margin-top: 28px;
+  text-align: center;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+}
+
+.auth-footer a {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color var(--transition-fast);
+}
+
+.auth-footer a:hover {
+  color: var(--primary-hover);
+}
+
+/* ─── Global footer ─── */
+.global-footer {
+  position: relative;
+  padding-top: 24px;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-weight: 500;
+  z-index: 2;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.4);
+}
+
+.global-footer p {
+  margin: 4px 0;
+}
+
+/* ─── Keyframes ─── */
+@keyframes gradientBG {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes float {
+  0%   { transform: translateY(0) scale(1); }
+  50%  { transform: translateY(-20px) scale(1.05); }
+  100% { transform: translateY(0) scale(1); }
+}
+
+@keyframes slideUpGlass {
+  from { opacity: 0; transform: translateY(30px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.92); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes spin {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes pulse-ring {
+  0%   { box-shadow: 0 0 0 0 rgba(13, 148, 136, 0.25); }
+  70%  { box-shadow: 0 0 0 12px rgba(13, 148, 136, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(13, 148, 136, 0); }
+}
+
+/* ─── Mobile ─── */
+@media (max-width: 480px) {
+  .auth-container { padding: 16px; }
+  .auth-card { padding: 32px 24px; }
+  .auth-header h2 { font-size: 1.5rem; }
+  .logo-icon { width: 32px; height: 32px; font-size: 20px; }
+}
