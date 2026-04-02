@@ -78,14 +78,15 @@ func currentMonthlyCreditWindow(now time.Time) (time.Time, time.Time) {
 }
 
 func getBaseMonthlyAICredits() int64 {
+	// AI Credit
 	creditValue := os.Getenv("MONTHLY_AI_ANALYSIS_CREDITS")
 	if creditValue == "" {
-		return 6
+		return 2
 	}
 
 	credits, err := strconv.ParseInt(creditValue, 10, 64)
 	if err != nil || credits < 0 {
-		return 6
+		return 2
 	}
 
 	return credits
