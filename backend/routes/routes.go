@@ -59,7 +59,7 @@ func registerUserDetailRoutes(rg *gin.RouterGroup) {
 	{
 		userDetails.GET("/usage", getUserUsage)
 		userDetails.GET("/ai-credits", getAICreditUsage)
-		// userDetails.PATCH("/update", updateProfile)
+		userDetails.PATCH("/update", updateProfile)
 	}
 
 }

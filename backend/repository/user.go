@@ -81,10 +81,25 @@ func UpdateGoogleId(u *models.User) error {
 	return err
 }
 
-func UpdateUser(u *models.User) error {
-	return database.DB.Model(&models.User{}).
-		Where("user_id = ?", u.UserId).
-		Updates(u).Error
+// func UpdateUser(u *models.User) error {
+// 	return database.DB.Model(&models.User{}).
+// 		Where("user_id = ?", u.UserId).
+// 		Updates(u).Error
+// }
+
+func UpdateUser(userModel *models.User) error {
+	query, err := database.ReadSQLFile("sql/UPDATE_USER.sql")
+	if err != nil {
+		return err
+	}
+
+	// if userModel.DOB != nil {
+	// 	dobStr := userModel.DOB.Format("2006-01-02")
+	// 	tempDOB, _ := time.Parse("2006-01-02", dobStr)
+	// 	userModel.DOB = &tempDOB
+	// }
+
+	return database.DB.Exec(query, userModel.Name, userModel.DOB, userModel.Gender, userModel.ProfilePic, userModel.UserId).Error
 }
 
 func DeleteUserByEmail(email string) error {

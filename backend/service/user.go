@@ -84,6 +84,16 @@ func ManageUserUpdateRequest(updateUserReq models.UpdateUserRequest, userId int6
 		userModel.DOB = updateUserReq.DOB
 	}
 
+	if updateUserReq.Gender != nil {
+		userModel.Gender = *updateUserReq.Gender
+	}
+
+	err = repository.UpdateUser(&userModel)
+
+	if err != nil {
+		return nil, err
+	}
+
 	return &userModel, nil
 
 }
