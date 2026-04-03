@@ -51,6 +51,7 @@ func registerDocumentRoutes(rg *gin.RouterGroup) {
 		documents.GET("/:id", getDocument)
 		documents.DELETE("/:id", deleteDocument)
 		documents.POST("/calendar", getCalendarDocuments)
+		documents.PATCH("/update/:id", updateDocument)
 	}
 }
 

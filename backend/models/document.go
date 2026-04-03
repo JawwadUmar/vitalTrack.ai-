@@ -22,3 +22,10 @@ type CalendarRequest struct {
 	Category string   `json:"category"`
 	Tags     []string `json:"tags"`
 }
+
+type UpdateDocumentRequest struct {
+	Category   *string `json:"category"`
+	ReportType *string `json:"report_type"`
+	FileType   *string `json:"file_type"`
+	Tags       *string `json:"tags"`
+}

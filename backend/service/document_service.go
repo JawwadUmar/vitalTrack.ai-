@@ -162,3 +162,7 @@ func GetCalendarDocuments(c *gin.Context) {
 		"days":  days,
 	})
 }
+
+func UpdateDocument(userID int64, documentId string, updateDocReq *models.UpdateDocumentRequest) error {
+	return repository.UpdateDocument(userID, documentId, updateDocReq)
+}

@@ -1,6 +1,8 @@
 package repository
 
 import (
+	"fmt"
+	"strings"
 	"time"
 	"vita-track-ai/database"
 	"vita-track-ai/models"
@@ -77,4 +79,49 @@ func GetDocumentsByMonth(userID int64, req models.CalendarRequest) ([]models.Doc
 
 	err := query.Find(&docs).Error
 	return docs, err
+}
+
+func UpdateDocument(userID int64, documentId string, updateDocReq *models.UpdateDocumentRequest) error {
+	query := "UPDATE documents SET "
+	args := []interface{}{}
+	i := 1
+
+	if updateDocReq.Category != nil {
+		query += fmt.Sprintf("category = $%d, ", i)
+		args = append(args, *updateDocReq.Category)
+		i++
+	}
+
+	if updateDocReq.ReportType != nil {
+		query += fmt.Sprintf("report_type = $%d, ", i)
+		args = append(args, *updateDocReq.ReportType)
+		i++
+	}
+
+	if updateDocReq.FileType != nil {
+		query += fmt.Sprintf("file_type = $%d, ", i)
+		args = append(args, *updateDocReq.FileType)
+		i++
+	}
+
+	if updateDocReq.Tags != nil {
+		query += fmt.Sprintf("tags = $%d, ", i)
+		args = append(args, *updateDocReq.Tags)
+		i++
+	}
+
+	// ❗ If no fields provided, avoid executing invalid query
+	if len(args) == 0 {
+		return nil // or return error like "nothing to update"
+	}
+
+	// Remove trailing comma
+	query = strings.TrimSuffix(query, ", ")
+
+	// Add WHERE clause
+	query += fmt.Sprintf(" WHERE user_id = $%d AND id = $%d", i, i+1)
+	args = append(args, userID, documentId)
+
+	// Execute
+	return database.DB.Exec(query, args...).Error
 }
