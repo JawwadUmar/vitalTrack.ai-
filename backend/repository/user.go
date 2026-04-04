@@ -25,19 +25,19 @@ func GetUserModelById(id int64) (models.User, error) {
 	return user, err
 }
 
-func SaveUser(u *models.User) error {
+func SaveUser(u *models.User) (int64, error) {
 	var err error
 
 	if u.Password != nil {
 		hashedPassword, err := utility.HashPassword(*u.Password)
 		if err != nil {
-			return err
+			return -1, err
 		}
 
 		u.Password = hashedPassword
 	}
 	err = database.DB.Create(u).Error
-	return err
+	return u.UserId, err
 }
 
 func ValidateCredential(u *models.User) error {
@@ -99,7 +99,7 @@ func UpdateUser(userModel *models.User) error {
 	// 	userModel.DOB = &tempDOB
 	// }
 
-	return database.DB.Exec(query, userModel.Name, userModel.DOB, userModel.Gender, userModel.ProfilePic, userModel.IsVerified, userModel.OTP, userModel.UserId).Error
+	return database.DB.Exec(query, userModel.Name, userModel.DOB, userModel.Gender, userModel.ProfilePic, userModel.IsVerified, userModel.UserId).Error
 }
 
 func DeleteUserByEmail(email string) error {
@@ -115,4 +115,10 @@ func GetCurrentStorageUsed(userId int64) (*models.UserUsage, error) {
 		Scan(&userUsage.TotalStorageUsed)
 
 	return &userUsage, tx.Error
+}
+
+func MakeUserVerified(email string) error {
+	return database.DB.Model(&models.User{}).
+		Where("email = ?", email).
+		Update("is_verified", true).Error
 }
