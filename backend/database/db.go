@@ -62,6 +62,7 @@ func createTables() {
 	createMedicalRecordTable()
 	createDocumentTable()
 	createUserStorageMV()
+	createOTPTable()
 }
 
 func createUserTable() {
@@ -108,4 +109,11 @@ func createUserStorageMV() error {
 	}
 
 	return DB.WithContext(context.Background()).Exec(query).Error
+}
+
+func createOTPTable() {
+	err := DB.AutoMigrate(&models.OneTimePassword{})
+	if err != nil {
+		panic("failed to migrate OTP table")
+	}
 }

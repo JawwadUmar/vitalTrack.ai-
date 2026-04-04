@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"math/rand"
 	"time"
+	"vita-track-ai/models"
 )
 
 // Helper function to safely get strings from claims
@@ -17,7 +18,14 @@ func GetClaim(key string, claims map[string]interface{}) string {
 	return ""
 }
 
-func GenerateOTP() string {
+func GenerateOTP() models.OneTimePassword {
+	var oneTimePassword models.OneTimePassword
 	rand.Seed(time.Now().UnixNano())
-	return fmt.Sprintf("%06d", rand.Intn(1000000))
+	otpStr := fmt.Sprintf("%06d", rand.Intn(1000000))
+	expiry := time.Now().Add(5 * time.Minute)
+
+	oneTimePassword.OTP = &otpStr
+	oneTimePassword.OTPExpiresAt = &expiry
+
+	return oneTimePassword
 }
