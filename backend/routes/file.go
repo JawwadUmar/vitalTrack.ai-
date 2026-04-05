@@ -8,12 +8,14 @@ import (
 )
 
 // @Summary Upload File
+// @Tags File
 // @Router /files/upload [post]
 func uploadFile(c *gin.Context) {
 	service.UploadFiles(c)
 }
 
 // @Summary Get File
+// @Tags File
 // @Router /files/{id} [get]
 func getFile(c *gin.Context) {
 
@@ -33,6 +35,7 @@ func getFile(c *gin.Context) {
 }
 
 // @Summary Get File Text
+// @Tags File
 // @Router /files/ocr/{id} [get]
 func getFileText(c *gin.Context) {
 	fileId := c.Param("id")
@@ -52,6 +55,7 @@ func getFileText(c *gin.Context) {
 }
 
 // @Summary Get File AI Analysis
+// @Tags File
 // @Router /files/ai/{id} [get]
 func getFileAnalysis(c *gin.Context) {
 	fileId := c.Param("id")
@@ -72,6 +76,7 @@ func getFileAnalysis(c *gin.Context) {
 }
 
 // @Summary Delete File
+// @Tags File
 // @Router /files/{id} [delete]
 func deleteFile(c *gin.Context) {
 	service.DeleteFile(c)

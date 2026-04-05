@@ -13,6 +13,7 @@ import (
 )
 
 // @Summary Get User Usage
+// @Tags User-Details
 // @Router /user-details/usage [get]
 func getUserUsage(context *gin.Context) {
 	userId := context.MustGet("user_id").(int64)
@@ -33,6 +34,7 @@ func getUserUsage(context *gin.Context) {
 }
 
 // @Summary Get AI Credit Usage
+// @Tags User-Details
 // @Router /user-details/ai-credits [get]
 func getAICreditUsage(context *gin.Context) {
 	userID := context.MustGet("user_id").(int64)
@@ -98,6 +100,7 @@ func getBaseMonthlyAICredits() int64 {
 }
 
 // @Summary Update User Profile
+// @Tags User-Details
 // @Router /user-details/update [patch]
 func updateProfile(context *gin.Context) {
 

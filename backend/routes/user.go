@@ -13,6 +13,7 @@ import (
 )
 
 // @Summary User Signup
+// @Tags User
 // @Accept multipart/form-data
 // @Produce json
 // @Param email formData string true "Email"
@@ -95,6 +96,13 @@ func signup(context *gin.Context) {
 }
 
 // @Summary User Login
+// @Tags User
+// @Accept json
+// @Produce json
+// @Param request body models.LoginRequest true "Login payload"
+// @Failure 400 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Success 200 {object} map[string]interface{}
 // @Router /users/login [post]
 func login(context *gin.Context) {
 
@@ -144,6 +152,7 @@ func login(context *gin.Context) {
 }
 
 // @Summary Verify OTP
+// @Tags User
 // @Router /users/verify-otp [post]
 func verifyOTP(context *gin.Context) {
 
@@ -187,6 +196,14 @@ func verifyOTP(context *gin.Context) {
 }
 
 // @Summary Forgot Password
+// @Tags User
+// @Accept json
+// @Produce json
+// @Param request body models.ForgetPasswordRequest true "Forget Password payload"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400 {object} map[string]interface{}
+// @Failure 409 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
 // @Router /users/forgot-password [post]
 func forgotPassword(context *gin.Context) {
 	var forgetPasswordRequest models.ForgetPasswordRequest
@@ -209,11 +226,11 @@ func forgotPassword(context *gin.Context) {
 		})
 		return
 	}
-	
+
 	otpModel := utility.GenerateOTP()
 	otpModel.Id = user.UserId
 	otpModel.Email = user.Email
-	
+
 	err = repository.SaveOTP(&otpModel)
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{
@@ -231,6 +248,16 @@ func forgotPassword(context *gin.Context) {
 }
 
 // @Summary Reset Password
+// @Tags User
+// @Accept json
+// @Produce json
+// @Param request body models.ResetPasswordRequest true "Reset Password"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400 {object} map[string]interface{}
+// @Failure 404 {object} map[string]interface{}
+// @Failure 401 {object} map[string]interface{}
+// @Failure 409 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
 // @Router /users/reset-password [post]
 func resetPassword(context *gin.Context) {
 	var req models.ResetPasswordRequest
@@ -276,6 +303,7 @@ func resetPassword(context *gin.Context) {
 }
 
 // @Summary Google Login
+// @Tags User
 // @Router /users/google [post]
 func googleLogin(context *gin.Context) {
 	var req models.GoogleLoginRequest
