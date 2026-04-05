@@ -12,6 +12,9 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// @Summary Get User Usage
+// @Tags User-Details
+// @Router /user-details/usage [get]
 func getUserUsage(context *gin.Context) {
 	userId := context.MustGet("user_id").(int64)
 
@@ -30,6 +33,9 @@ func getUserUsage(context *gin.Context) {
 	})
 }
 
+// @Summary Get AI Credit Usage
+// @Tags User-Details
+// @Router /user-details/ai-credits [get]
 func getAICreditUsage(context *gin.Context) {
 	userID := context.MustGet("user_id").(int64)
 	periodStart, renewDate := currentMonthlyCreditWindow(time.Now())
@@ -93,6 +99,20 @@ func getBaseMonthlyAICredits() int64 {
 	return credits
 }
 
+// @Summary Update User Profile
+// @Tags User-Details
+// @Accept multipart/form-data
+// @Produce json
+// @Param name formData string false "Name"
+// @Param delete_profile_pic formData string false "DeleteProfilePic"
+// @Param dob formData string false "Date of Birth (YYYY-MM-DD)"
+// @Param gender formData string false "Gender"
+// @Param profile_pic formData file false "Profile Picture"
+// @Failure 400 {object} map[string]interface{}
+// @Failure 500 {object} map[string]interface{}
+// @Success 200 {object} map[string]interface{}
+// @Security BearerAuth
+// @Router /user-details/update [patch]
 func updateProfile(context *gin.Context) {
 
 	var updateUserReq models.UpdateUserRequest
