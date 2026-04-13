@@ -81,6 +81,16 @@ func signup(context *gin.Context) {
 		return
 	}
 
+	if signupRequest.ProfilePic != nil {
+		if _, err := service.UploadUserProfileImage(userId, signupRequest.ProfilePic); err != nil {
+			context.JSON(http.StatusInternalServerError, gin.H{
+				"message": "User created but profile picture upload failed",
+				"error":   err.Error(),
+			})
+			return
+		}
+	}
+
 	// 🔹 Generate OTP
 	otpModel := utility.GenerateOTP()
 	otpModel.Id = userId
@@ -143,10 +153,19 @@ func login(context *gin.Context) {
 		return
 	}
 
+	userResponse, err := service.BuildUserResponse(user)
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{
+			"message": "Some problem preparing the user response",
+			"error":   err.Error(),
+		})
+		return
+	}
+
 	context.JSON(http.StatusOK, gin.H{
 		"message": "Successfully login",
 		"token":   token,
-		"user":    user,
+		"user":    userResponse,
 	})
 
 }
@@ -388,9 +407,18 @@ func googleLogin(context *gin.Context) {
 		return
 	}
 
+	userResponse, err := service.BuildUserResponse(userModel)
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{
+			"message": "Some problem preparing the user response",
+			"error":   err.Error(),
+		})
+		return
+	}
+
 	context.JSON(http.StatusOK, gin.H{
 		"message": "Google login successful",
-		"user":    userModel,
+		"user":    userResponse,
 		"token":   token,
 	})
 
