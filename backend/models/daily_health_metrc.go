@@ -58,9 +58,6 @@ func (d *DailyHealthMetric) Validate() error {
 }
 
 type SaveHealthMetricRequest struct {
-	UploadedBy int64      `json:"user_id"`
-	Timestamp  *time.Time `json:"timestamp"`
-
 	HeartRate *int         `json:"heart_rate"`
 	Weight    *Measurement `json:"weight"`
 
@@ -90,12 +87,8 @@ func (r *SaveHealthMetricRequest) ToModel() *DailyHealthMetric {
 	}
 
 	timestamp := time.Now()
-	if r.Timestamp != nil {
-		timestamp = *r.Timestamp
-	}
 
 	return &DailyHealthMetric{
-		UploadedBy:    r.UploadedBy,
 		Timestamp:     timestamp,
 		HeartRate:     r.HeartRate,
 		Weight:        r.Weight,

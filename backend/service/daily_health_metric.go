@@ -5,8 +5,9 @@ import (
 	"vita-track-ai/repository"
 )
 
-func SaveHealtMetric(req models.SaveHealthMetricRequest) (*models.DailyHealthMetric, error) {
+func SaveHealtMetric(req models.SaveHealthMetricRequest, userId int64) (*models.DailyHealthMetric, error) {
 	metric := req.ToModel()
+	metric.UploadedBy = userId
 
 	err := metric.Validate()
 	if err != nil {
