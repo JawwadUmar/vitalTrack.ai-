@@ -12,11 +12,11 @@ import (
 )
 
 type CreateDocumentRequest struct {
-	FileID     string   `json:"file_id" binding:"required"`
-	Category   string   `json:"category" binding:"required"`
-	ReportName string   `json:"report_name" binding:"required"`
-	Tags       []string `json:"tags"`
-	ReportDate string   `json:"report_date"` // ⭐ ADD THIS
+	FileID       string   `json:"file_id" binding:"required"`
+	Category     string   `json:"category" binding:"required"`
+	DocumentName string   `json:"document_name" binding:"required"`
+	Tags         []string `json:"tags"`
+	ReportDate   string   `json:"report_date"` // ⭐ ADD THIS
 }
 
 func CreateDocument(c *gin.Context) {
@@ -60,13 +60,13 @@ func CreateDocument(c *gin.Context) {
 	}
 
 	doc := models.Document{
-		UserID:     userID,
-		FileID:     req.FileID,
-		Category:   req.Category,
-		ReportName: req.ReportName,
-		Tags:       string(tagsJSON),
-		Status:     "uploaded",
-		ReportDate: parsedDate,
+		UserID:       userID,
+		FileID:       req.FileID,
+		Category:     req.Category,
+		DocumentName: req.DocumentName,
+		Tags:         string(tagsJSON),
+		Status:       "uploaded",
+		ReportDate:   parsedDate,
 	}
 
 	if err := repository.CreateDocument(&doc); err != nil {
