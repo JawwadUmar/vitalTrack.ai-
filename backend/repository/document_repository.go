@@ -98,12 +98,6 @@ func UpdateDocument(userID int64, documentId string, updateDocReq *models.Update
 		i++
 	}
 
-	if updateDocReq.FileType != nil {
-		query += fmt.Sprintf("file_type = $%d, ", i)
-		args = append(args, *updateDocReq.FileType)
-		i++
-	}
-
 	if updateDocReq.Tags != nil {
 		query += fmt.Sprintf("tags = $%d, ", i)
 		args = append(args, *updateDocReq.Tags)

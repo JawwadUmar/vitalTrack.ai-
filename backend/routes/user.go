@@ -100,6 +100,7 @@ func signup(context *gin.Context) {
 
 	// When email flow is disabled, auto-verify the user and skip OTP entirely.
 	if isEmailDisabled() {
+		fmt.Println("I am here, means email is disabled", os.Getenv("DISABLE_EMAIL_FLOW"))
 		if verifyErr := repository.MakeUserVerified(user.Email); verifyErr != nil {
 			context.JSON(http.StatusInternalServerError, gin.H{
 				"message": "User created but could not auto-verify",

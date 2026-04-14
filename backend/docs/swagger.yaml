@@ -148,6 +148,7 @@ paths:
   /user-details/update:
     patch:
       consumes:
+      - application/json
       - multipart/form-data
       parameters:
       - description: Name

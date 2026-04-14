@@ -184,6 +184,7 @@ const docTemplate = `{
                     }
                 ],
                 "consumes": [
+                    "application/json",
                     "multipart/form-data"
                 ],
                 "produces": [

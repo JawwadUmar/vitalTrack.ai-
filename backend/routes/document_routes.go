@@ -43,7 +43,6 @@ func getCalendarDocuments(c *gin.Context) {
 // @Param id path string true "Document ID"
 // @Param category formData string false "Category"
 // @Param report_type formData string false "ReportType"
-// @Param file_type formData string false "FileType"
 // @Param Tags formData string false "tags"
 // @Failure 400 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}

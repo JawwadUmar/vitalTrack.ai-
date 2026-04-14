@@ -9,7 +9,6 @@ type Document struct {
 	FileID            string    `json:"id" gorm:"column:id;primaryKey"`
 	Category          string    `json:"category"`
 	ReportType        string    `json:"report_type"`
-	FileType          string    `json:"file_type"`
 	Tags              string    `json:"tags"` // JSON string
 	Status            string    `json:"status"`
 	ReportDate        time.Time `json:"report_date"`
@@ -26,6 +25,5 @@ type CalendarRequest struct {
 type UpdateDocumentRequest struct {
 	Category   *string `form:"category"`
 	ReportType *string `form:"report_type"`
-	FileType   *string `form:"file_type"`
 	Tags       *string `form:"tags"`
 }
