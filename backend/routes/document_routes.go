@@ -42,7 +42,7 @@ func getCalendarDocuments(c *gin.Context) {
 // @Produce json
 // @Param id path string true "Document ID"
 // @Param category formData string false "Category"
-// @Param report_type formData string false "ReportType"
+// @Param report_name formData string false "ReportName"
 // @Param Tags formData string false "tags"
 // @Failure 400 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}

@@ -75,13 +75,9 @@ paths:
         in: formData
         name: category
         type: string
-      - description: ReportType
+      - description: ReportName
         in: formData
-        name: report_type
-        type: string
-      - description: FileType
-        in: formData
-        name: file_type
+        name: report_name
         type: string
       - description: tags
         in: formData

@@ -66,14 +66,8 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "ReportType",
-                        "name": "report_type",
-                        "in": "formData"
-                    },
-                    {
-                        "type": "string",
-                        "description": "FileType",
-                        "name": "file_type",
+                        "description": "ReportName",
+                        "name": "report_name",
                         "in": "formData"
                     },
                     {

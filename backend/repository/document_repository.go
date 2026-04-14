@@ -92,9 +92,9 @@ func UpdateDocument(userID int64, documentId string, updateDocReq *models.Update
 		i++
 	}
 
-	if updateDocReq.ReportType != nil {
-		query += fmt.Sprintf("report_type = $%d, ", i)
-		args = append(args, *updateDocReq.ReportType)
+	if updateDocReq.ReportName != nil {
+		query += fmt.Sprintf("report_name = $%d, ", i)
+		args = append(args, *updateDocReq.ReportName)
 		i++
 	}
 

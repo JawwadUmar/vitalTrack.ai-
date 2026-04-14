@@ -58,7 +58,7 @@ export class CalendarDashboard implements OnInit {
   
   uploadForm: FormGroup = this.fb.group({
     category: ['general', Validators.required],
-    report_type: ['', Validators.required],
+    report_name: ['', Validators.required],
     file_type: ['lab_report', Validators.required],
     tags: [''], // user will input comma separated values
     report_date: ['', Validators.required]
@@ -612,7 +612,7 @@ export class CalendarDashboard implements OnInit {
   getAiAnalysis() {
     if (!this.selectedDocDetails) return;
     const fileId = this.selectedDocDetails?.file_id || this.selectedDocDetails?.id;
-    const docName = this.selectedDocDetails?.report_type || 'Report';
+    const docName = this.selectedDocDetails?.report_name || 'Report';
     if (!fileId) {
       this.toastService.showError('No file ID found for AI analysis.');
       return;

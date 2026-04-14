@@ -14,7 +14,7 @@ import (
 type CreateDocumentRequest struct {
 	FileID     string   `json:"file_id" binding:"required"`
 	Category   string   `json:"category" binding:"required"`
-	ReportType string   `json:"report_type" binding:"required"`
+	ReportName string   `json:"report_name" binding:"required"`
 	Tags       []string `json:"tags"`
 	ReportDate string   `json:"report_date"` // ⭐ ADD THIS
 }
@@ -63,7 +63,7 @@ func CreateDocument(c *gin.Context) {
 		UserID:     userID,
 		FileID:     req.FileID,
 		Category:   req.Category,
-		ReportType: req.ReportType,
+		ReportName: req.ReportName,
 		Tags:       string(tagsJSON),
 		Status:     "uploaded",
 		ReportDate: parsedDate,
