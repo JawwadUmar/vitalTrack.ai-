@@ -58,10 +58,10 @@ export class CalendarDashboard implements OnInit {
   
   uploadForm: FormGroup = this.fb.group({
     category: ['general', Validators.required],
-    report_type: ['', Validators.required],
+    document_name: ['', Validators.required],
     file_type: ['lab_report', Validators.required],
     tags: [''], // user will input comma separated values
-    report_date: ['', Validators.required]
+    document_date: ['', Validators.required]
   });
 
   // Storage State
@@ -107,7 +107,7 @@ export class CalendarDashboard implements OnInit {
 
   ngOnInit() {
     this.uploadForm.patchValue({
-      report_date: this.formatDateForApi(new Date())
+      document_date: this.formatDateForApi(new Date())
     });
     this.generateCalendar();
     this.fetchMonthData();
@@ -298,7 +298,7 @@ export class CalendarDashboard implements OnInit {
     this.uploadForm.reset({
       category: 'general',
       file_type: 'lab_report',
-      report_date: this.formatDateForApi(new Date())
+      document_date: this.formatDateForApi(new Date())
     });
   }
 
@@ -612,7 +612,7 @@ export class CalendarDashboard implements OnInit {
   getAiAnalysis() {
     if (!this.selectedDocDetails) return;
     const fileId = this.selectedDocDetails?.file_id || this.selectedDocDetails?.id;
-    const docName = this.selectedDocDetails?.report_type || 'Report';
+    const docName = this.selectedDocDetails?.document_name || 'Report';
     if (!fileId) {
       this.toastService.showError('No file ID found for AI analysis.');
       return;

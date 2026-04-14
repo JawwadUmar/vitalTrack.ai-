@@ -123,7 +123,7 @@
                     <polyline points="17 8 12 3 7 8"></polyline>
                     <line x1="12" y1="3" x2="12" y2="15"></line>
                 </svg>
-                Upload Report
+                Upload Document
             </button>
             <button class="btn-icon-logout" (click)="logout()" title="Logout">
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
@@ -171,9 +171,9 @@
 
                     <!-- Desktop Document List -->
                     <div class="documents-list">
-                        <div *ngFor="let doc of cell.documents | slice:0:3" class="doc-badge" [title]="doc.report_type"
+                        <div *ngFor="let doc of cell.documents | slice:0:3" class="doc-badge" [title]="doc.document_name"
                             (click)="openDocumentDetails(doc.id); $event.stopPropagation()">
-                            <span class="doc-badge-text">{{ doc.report_type }}</span>
+                            <span class="doc-badge-text">{{ doc.document_name }}</span>
                             <span *ngIf="doc.analysis_generated" title="AI analysis available"
                                 style="display: inline-flex; width: 8px; height: 8px; border-radius: 999px; background: #10B981; box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.18); flex-shrink: 0;">
                             </span>
@@ -210,7 +210,7 @@
     <div class="modal-overlay" *ngIf="isUploadModalOpen">
         <div class="modal-card">
             <div class="modal-header">
-                <h3>Upload Medical Report</h3>
+                <h3>Upload Document</h3>
                 <button class="btn-close" (click)="closeUploadModal()">&times;</button>
             </div>
 
@@ -225,25 +225,23 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="report_type">Report Name / Type <span class="required-star">*</span></label>
-                        <input type="text" id="report_type" formControlName="report_type"
+                        <label for="document_name">Document Name <span class="required-star">*</span></label>
+                        <input type="text" id="document_name" formControlName="document_name"
                             placeholder="e.g. Blood Test Results">
                     </div>
 
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="report_date">Report Date <span class="required-star">*</span></label>
-                            <input type="date" id="report_date" formControlName="report_date">
+                            <label for="document_date"> Date <span class="required-star">*</span></label>
+                            <input type="date" id="document_date" formControlName="document_date">
                         </div>
 
                         <div class="form-group">
                             <label for="category">Category <span class="required-star">*</span></label>
                             <select id="category" formControlName="category">
-                                <option value="general">General</option>
-                                <option value="heart">Heart</option>
-                                <option value="neurology">Neurology</option>
-                                <option value="orthopedic">Orthopedic</option>
-                                <option value="other">Other</option>
+                                <option value="Medical Report">Medical Report</option>
+                                <option value="Prescription">Prescription</option>
+                                <option value="Other">Other</option>
                             </select>
                         </div>
                     </div>
@@ -283,7 +281,7 @@
                     style="cursor: pointer; padding: 12px; display: flex; align-items: center; justify-content: space-between; font-size: 1rem;"
                     (click)="openDocumentDetails(doc.id); closeDayModal()">
                     <span style="display: inline-flex; align-items: center; gap: 8px;">
-                        <span>{{ doc.report_type }}</span>
+                        <span>{{ doc.document_name }}</span>
                         <span *ngIf="doc.analysis_generated"
                             style="display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 999px; background: #ECFDF5; color: #047857; font-size: 0.75rem; font-weight: 600;">
                             AI Ready
@@ -348,7 +346,7 @@
                     <!-- Right: Metadata -->
                     <div class="info-section">
                         <h4 style="margin-top: 0; margin-bottom: 24px; color: var(--text-main); font-size: 1.25rem;">{{
-                            selectedDocDetails.report_type }}</h4>
+                            selectedDocDetails.document_name }}</h4>
 
                         <div class="info-row">
                             <span class="info-label">Category:</span>
@@ -356,7 +354,7 @@
                         </div>
                         <div class="info-row">
                             <span class="info-label">Date Logged:</span>
-                            <span class="info-value">{{ selectedDocDetails.report_date | date:'mediumDate' }}</span>
+                            <span class="info-value">{{ selectedDocDetails.document_date | date:'mediumDate' }}</span>
                         </div>
                         <div class="info-row">
                             <span class="info-label">Status:</span>
@@ -469,7 +467,7 @@
                 <button class="btn-close" (click)="closeDeleteModal()">&times;</button>
             </div>
             <div class="modal-body" style="padding-top: 10px;">
-                <p>Are you sure you want to delete <strong>{{ documentToDelete?.report_type || 'this document'
+                <p>Are you sure you want to delete <strong>{{ documentToDelete?.document_name || 'this document'
                         }}</strong>? This action cannot be undone.</p>
                 <div class="api-error" *ngIf="deleteError" style="margin-top: 16px;">
                     {{ deleteError }}

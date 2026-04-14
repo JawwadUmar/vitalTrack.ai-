@@ -12,8 +12,8 @@ interface Metric {
 
 interface AnalysisData {
   report_metadata?: {
-    report_date?: string;
-    report_type?: string;
+    document_date?: string;
+    document_name?: string;
     hospital_or_lab_name?: string;
   };
   metrics?: Metric[];

@@ -67,7 +67,7 @@ func GetDocumentsByMonth(userID int64, req models.CalendarRequest) ([]models.Doc
 		`).
 		Joins("LEFT JOIN medical_report_dbs ON medical_report_dbs.id = documents.id").
 		Where("documents.user_id = ?", userID).
-		Where("documents.report_date >= ? AND documents.report_date < ?", start, end)
+		Where("documents.document_date >= ? AND documents.document_date < ?", start, end)
 
 	if req.Category != "" {
 		query = query.Where("documents.category = ?", req.Category)
@@ -92,21 +92,22 @@ func UpdateDocument(userID int64, documentId string, updateDocReq *models.Update
 		i++
 	}
 
-	if updateDocReq.ReportType != nil {
-		query += fmt.Sprintf("report_type = $%d, ", i)
-		args = append(args, *updateDocReq.ReportType)
-		i++
-	}
-
-	if updateDocReq.FileType != nil {
-		query += fmt.Sprintf("file_type = $%d, ", i)
-		args = append(args, *updateDocReq.FileType)
+	if updateDocReq.DocumentName != nil {
+		query += fmt.Sprintf("document_name = $%d, ", i)
+		args = append(args, *updateDocReq.DocumentName)
 		i++
 	}
 
 	if updateDocReq.Tags != nil {
 		query += fmt.Sprintf("tags = $%d, ", i)
 		args = append(args, *updateDocReq.Tags)
+		i++
+	}
+
+	if updateDocReq.DocumentDate != nil {
+		parsedDate, _ := time.Parse("2006-01-02", *updateDocReq.DocumentDate)
+		query += fmt.Sprintf("document_date = $%d, ", i)
+		args = append(args, parsedDate)
 		i++
 	}
 

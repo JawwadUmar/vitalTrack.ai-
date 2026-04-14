@@ -135,7 +135,7 @@ export class DetailsView implements OnInit, OnDestroy {
 
         // Navigate to AI analysis page and pass data via router state
         this.router.navigate(['/analysis'], {
-          state: { analysisData, docName: this.docDetails?.report_type || 'Report' }
+          state: { analysisData, docName: this.docDetails?.document_name || 'Report' }
         });
       },
       error: (err) => {

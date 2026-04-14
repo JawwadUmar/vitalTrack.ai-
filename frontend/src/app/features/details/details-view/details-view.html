@@ -74,7 +74,7 @@
             <!-- Document Title -->
             <div class="doc-title-section">
                 <span class="doc-category-badge">{{ docDetails.category || 'General' }}</span>
-                <h2 class="doc-title">{{ docDetails.report_type || 'Medical Report' }}</h2>
+                <h2 class="doc-title">{{ docDetails.document_name || 'Medical Report' }}</h2>
             </div>
 
             <!-- Metadata -->
@@ -83,7 +83,7 @@
                     <span class="meta-icon">📅</span>
                     <div>
                         <span class="meta-label">Date Logged</span>
-                        <span class="meta-value">{{ docDetails.report_date | date:'mediumDate' }}</span>
+                        <span class="meta-value">{{ docDetails.document_date | date:'mediumDate' }}</span>
                     </div>
                 </div>
                 <div class="meta-item">

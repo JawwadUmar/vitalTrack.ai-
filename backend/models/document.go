@@ -8,11 +8,10 @@ type Document struct {
 	File              File      `gorm:"foreignKey:FileID;references:ID;constraint:OnDelete:CASCADE"`
 	FileID            string    `json:"id" gorm:"column:id;primaryKey"`
 	Category          string    `json:"category"`
-	ReportType        string    `json:"report_type"`
-	FileType          string    `json:"file_type"`
+	DocumentName      string    `json:"document_name"`
 	Tags              string    `json:"tags"` // JSON string
 	Status            string    `json:"status"`
-	ReportDate        time.Time `json:"report_date"`
+	DocumentDate      time.Time `json:"document_date"`
 	AnalysisGenerated bool      `json:"analysis_generated" gorm:"column:analysis_generated;->;-:migration"`
 }
 
@@ -24,8 +23,8 @@ type CalendarRequest struct {
 }
 
 type UpdateDocumentRequest struct {
-	Category   *string `form:"category"`
-	ReportType *string `form:"report_type"`
-	FileType   *string `form:"file_type"`
-	Tags       *string `form:"tags"`
+	Category     *string `form:"category"`
+	DocumentName *string `form:"document_name"`
+	Tags         *string `form:"tags"`
+	DocumentDate *string `form:"document_date"`
 }

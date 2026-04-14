@@ -75,13 +75,13 @@ paths:
         in: formData
         name: category
         type: string
-      - description: ReportType
+      - description: DocumentName
         in: formData
-        name: report_type
+        name: document_name
         type: string
-      - description: FileType
+      - description: DocumentDate (YYYY-MM-DD)
         in: formData
-        name: file_type
+        name: document_date
         type: string
       - description: tags
         in: formData
@@ -148,6 +148,7 @@ paths:
   /user-details/update:
     patch:
       consumes:
+      - application/json
       - multipart/form-data
       parameters:
       - description: Name

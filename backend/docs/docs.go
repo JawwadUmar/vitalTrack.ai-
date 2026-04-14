@@ -66,14 +66,14 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "ReportType",
-                        "name": "report_type",
+                        "description": "DocumentName",
+                        "name": "document_name",
                         "in": "formData"
                     },
                     {
                         "type": "string",
-                        "description": "FileType",
-                        "name": "file_type",
+                        "description": "DocumentDate (YYYY-MM-DD)",
+                        "name": "document_date",
                         "in": "formData"
                     },
                     {
@@ -184,6 +184,7 @@ const docTemplate = `{
                     }
                 ],
                 "consumes": [
+                    "application/json",
                     "multipart/form-data"
                 ],
                 "produces": [
